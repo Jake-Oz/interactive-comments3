@@ -6,7 +6,6 @@ import CommentButtons from "./components/CommentButtons";
 import CommentText from "./components/CommentText";
 import ReplyCard from "./components/ReplyCard";
 import AddCommentCard from "./components/AddCommentCard";
-import { randomUUID } from "crypto";
 import EditComment from "./components/EditComment";
 import DeleteModal from "./components/DeleteModal";
 import UpvoteButton from "./components/UpvoteButton";
@@ -22,16 +21,16 @@ type Params = {
 };
 
 export default function Home({ searchParams }: { searchParams: Params }) {
-  const currentUser = useDataStore((state) => state.currentUser); //data?.currentUser;
-  const comments = useDataStore((state) => state.comments); //data?.comments;
+  const currentUser = useDataStore((state) => state.currentUser);
+  const comments = useDataStore((state) => state.comments);
   const commentComponents = comments?.map((comment) => {
     const primaryComment = (
       <div
         key={comment.id}
-        className="flex items-center pt-2 pb-4 px-6 bg-neutral-White rounded-xl my-2"
+        className="flex items-center justify-between my-2 pt-2 pb-4 px-6 bg-neutral-White rounded-xl "
       >
         <UpvoteButton vote={comment.score} id={comment.id} reply={false} />
-        <div>
+        <div className="flex flex-col flex-1">
           <div className="flex flex-row items-center justify-between">
             <CommentHeader
               name={comment.user.username}

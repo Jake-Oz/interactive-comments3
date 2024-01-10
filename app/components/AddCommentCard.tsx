@@ -2,7 +2,6 @@
 import React, { ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
 import { useState } from "react";
-// import { AddComment } from "../actions/getData";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
 import { useDataStore } from "../hooks/useDataStore";
@@ -12,14 +11,13 @@ const AddCommentCard = ({ id, username }: { id: number; username: string }) => {
   const [text, setText] = useState("");
   const router = useRouter();
   const dataSet = useDataStore();
-  //const addCommentWithUser = AddComment.bind(null, id);
+
   const updateText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setText(e.target.value);
   };
 
   const handleSubmit = (formData: FormData) => {
-    //addCommentWithUser(formData);
     const date = convertDateToWords(new Date());
     const content = formData.get("comment")?.toString()!;
     const newComment = {
