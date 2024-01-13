@@ -30,7 +30,7 @@ const AddCommentCard = ({ id, username }: { id: number; username: string }) => {
     };
     dataSet.addComment(newComment);
     setText("");
-    router.push("/");
+    router.push("/", { scroll: false });
   };
 
   const escape = (event: KeyboardEvent) => {
@@ -63,7 +63,7 @@ const AddCommentCard = ({ id, username }: { id: number; username: string }) => {
           <textarea
             name="comment"
             placeholder="Add a comment..."
-            className="block w-full min-h-[6rem] sm:order-2 border border-neutral-lightGray rounded-lg px-6 py-2 resize-none cursor-pointer"
+            className="block w-full min-h-[6rem] sm:order-2 border border-neutral-lightGray focus:border-primary-moderateBlue caret-primary-moderateBlue rounded-lg px-6 py-2 resize-none outline-none cursor-pointer"
             value={text}
             onChange={updateText}
             onKeyDown={escape}

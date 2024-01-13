@@ -23,10 +23,14 @@ const CommentButtons = ({
     router.push(`/?modal=true&reply=${reply}&id=${postId}`);
   };
   const handleReply = () => {
-    router.push(`/?showReply=true&reply=${reply}&id=${postId}`);
+    router.push(`/?showReply=true&reply=${reply}&id=${postId}`, {
+      scroll: false,
+    });
   };
   const handleEdit = () => {
-    router.push(`/?showEdit=true&reply=${reply}&id=${postId}`);
+    router.push(`/?showEdit=true&reply=${reply}&id=${postId}`, {
+      scroll: false,
+    });
   };
 
   return (

@@ -33,7 +33,7 @@ const EditComment = ({
   const handleSubmit = (formData: FormData) => {
     const newContent = formData.get("comment")?.toString()!;
     dataSet.updateComment(newContent, id);
-    router.push("/");
+    router.push("/", { scroll: false });
   };
   return (
     <div className="rounded-xl mx-4 mb-2 bg-neutral-White">
@@ -44,7 +44,7 @@ const EditComment = ({
         <textarea
           name="comment"
           placeholder="Add a comment..."
-          className="block p-2.5 w-full min-h-[6rem] text-neutral-grayishBlue border rounded-lg border-primary-moderateBlue px-6 py-2 resize-none cursor-pointer"
+          className="block p-2.5 w-full min-h-[6rem] caret-primary-moderateBlue focus:border-primary-moderateBlue text-neutral-grayishBlue border rounded-lg border-primary-moderateBlue px-6 py-2 resize-none outline-none cursor-pointer"
           value={text}
           onChange={updateText}
           onKeyDown={escape}

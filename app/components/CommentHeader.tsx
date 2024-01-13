@@ -17,7 +17,7 @@ const CommentHeader = ({
       <Image src={avatar} alt="Avatar" width={30} height={30} />
       <div className="font-medium">{name}</div>
       {name == currentUser.username && (
-        <div className="px-2 rounded bg-primary-moderateBlue text-neutral-White text-xs">
+        <div className="flex justify-center items-center rounded-sm px-[0.4rem] h-4 pb-[1px] bg-primary-moderateBlue text-neutral-White text-[0.75rem]">
           <p>you</p>
         </div>
       )}

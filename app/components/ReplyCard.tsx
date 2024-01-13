@@ -2,10 +2,8 @@
 import React, { ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
 import { useState } from "react";
-//import { AddNewReply } from "../actions/getData";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
-//import data from "@/app/data.json";
 import { useDataStore } from "../hooks/useDataStore";
 import { convertDateToWords } from "../lib/dateInWords";
 
@@ -20,14 +18,6 @@ const ReplyCard = ({
 }) => {
   const [text, setText] = useState("");
 
-  // const addReplyWithUser = AddNewReply.bind(
-  //   null,
-  //   authorId,
-  //   postId,
-  //   replyToId,
-  //   isReply
-  // );
-
   const dataSet = useDataStore((state) => state);
 
   const router = useRouter();
@@ -38,7 +28,6 @@ const ReplyCard = ({
   };
 
   const handleSubmit = (formData: FormData) => {
-    //addReplyWithUser(formData);
     const replyingTo = dataSet.comments.filter((comment) => {
       if (comment.id == postId) {
         return true;
@@ -77,12 +66,15 @@ const ReplyCard = ({
     dataSet.addReply(newReply, replyingTo[0].id);
 
     setText("");
-    router.push("/");
+    router.push("/", { scroll: false });
   };
 
   const escape = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       router.push("/");
+    }
+    if (event.key === "Enter") {
+      // TODO Enter form data
     }
   };
 
@@ -110,7 +102,7 @@ const ReplyCard = ({
           <textarea
             name="comment"
             placeholder="Add a comment..."
-            className="block min-h-[6rem] w-full sm:order-2 border border-neutral-lightGray rounded-lg px-6 py-2 resize-none cursor-pointer"
+            className="block min-h-[6rem] w-full sm:order-2 border border-neutral-lightGray caret-primary-moderateBlue focus:border-primary-moderateBlue rounded-lg px-6 py-2 resize-none outline-none cursor-pointer"
             value={text}
             onChange={updateText}
             onKeyDown={escape}

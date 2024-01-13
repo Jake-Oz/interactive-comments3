@@ -23,6 +23,7 @@ type Params = {
 export default function Home({ searchParams }: { searchParams: Params }) {
   const currentUser = useDataStore((state) => state.currentUser);
   const comments = useDataStore((state) => state.comments);
+
   const commentComponents = comments?.map((comment) => {
     const primaryComment = (
       <div
