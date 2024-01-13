@@ -40,28 +40,37 @@ const AddCommentCard = ({ id, username }: { id: number; username: string }) => {
   };
 
   return (
-    <div className=" rounded-xl bg-neutral-White my-2">
-      <div className="p-6">
+    <div className=" rounded-xl bg-neutral-White mt-2">
+      <div className="p-4">
         <form
           action={handleSubmit}
-          className="flex justify-between items-start gap-4"
+          className="flex flex-col-reverse sm:flex-row justify-between items-start gap-4"
         >
-          <Image
-            src={`/images/avatars/image-${username}.png`}
-            alt="Current User Avatar"
-            width={40}
-            height={40}
-            style={{ objectFit: "contain" }}
-          />
+          <div className="flex flex-row justify-between items-center w-full sm:w-auto">
+            <div className="w-8 sm:w-10 sm:order-1">
+              <Image
+                src={`/images/avatars/image-${username}.png`}
+                alt="Current User Avatar"
+                width={40}
+                height={40}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+            <div className="sm:hidden">
+              <Button label="SEND" />
+            </div>
+          </div>
           <textarea
             name="comment"
             placeholder="Add a comment..."
-            className="block p-2.5 w-full min-h-[6rem] border border-primary-moderateBlue rounded-lg px-6 py-2 resize-none cursor-pointer"
+            className="block w-full min-h-[6rem] sm:order-2 border border-neutral-lightGray rounded-lg px-6 py-2 resize-none cursor-pointer"
             value={text}
             onChange={updateText}
             onKeyDown={escape}
           ></textarea>
-          <Button label="SEND" />
+          <div className="hidden sm:block sm:order-3">
+            <Button label="SEND" />
+          </div>
         </form>
       </div>
     </div>

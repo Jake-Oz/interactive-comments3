@@ -27,17 +27,32 @@ export default function Home({ searchParams }: { searchParams: Params }) {
     const primaryComment = (
       <div
         key={comment.id}
-        className="flex items-center justify-between my-2 pt-2 pb-4 px-6 bg-neutral-White rounded-xl "
+        className=" 
+         flex flex-col-reverse sm:flex-row items-top my-2 sm:pb-2 bg-neutral-White rounded-xl"
       >
-        <UpvoteButton vote={comment.score} id={comment.id} reply={false} />
-        <div className="flex flex-col flex-1">
-          <div className="flex flex-row items-center justify-between">
-            <CommentHeader
-              name={comment.user.username}
-              avatar={comment.user.image.png}
-              date={comment.createdAt}
+        <div className="flex flex-row justify-between sm:order-1 px-4 sm:pl-4 sm:pr-0 pt-4 pb-4">
+          <div className="">
+            <UpvoteButton vote={comment.score} id={comment.id} reply={false} />
+          </div>
+          <div className="sm:hidden">
+            <CommentButtons
+              username={comment.user.username}
+              currentUser={currentUser!.username}
+              postId={comment.id}
+              reply={false}
             />
+          </div>
+        </div>
+        <div className="flex flex-col order-1 w-full sm:order-2 sm:pr-4 sm:pb-2">
+          <div className="flex flex-row justify-between items-center">
             <div>
+              <CommentHeader
+                name={comment.user.username}
+                avatar={comment.user.image.png}
+                date={comment.createdAt}
+              />
+            </div>
+            <div className="hidden sm:block">
               <CommentButtons
                 username={comment.user.username}
                 currentUser={currentUser!.username}
@@ -46,38 +61,50 @@ export default function Home({ searchParams }: { searchParams: Params }) {
               />
             </div>
           </div>
-          <CommentText comment={comment.content} />
+          <div className="">
+            <CommentText comment={comment.content} />
+          </div>
         </div>
       </div>
     );
     if (comment.replies.length > 0) {
       const replies = comment.replies.map((reply) => {
         return (
-          <div key={reply.id} className="flex flex-col ml-8">
-            <div className="flex items-center justify-between px-6 pt-2 pb-4 bg-neutral-White rounded-xl">
-              <UpvoteButton
-                vote={comment.score}
-                id={comment.id}
-                reply={false}
-              />
-              <div className="flex flex-col flex-1">
-                <div className="flex flex-row items-center justify-between">
-                  <CommentHeader
-                    name={reply.user.username}
-                    avatar={reply.user.image.png}
-                    date={reply.createdAt}
+          <div>
+            <div
+              key={reply.id}
+              className="
+           flex flex-col-reverse sm:flex-row items-top ml-4 sm:ml-8 sm:pb-2 bg-neutral-White rounded-xl"
+            >
+              <div className="flex flex-row justify-between w-full sm:w-auto sm:order-1 px-4 sm:pl-4 sm:pr-0 pt-4 pb-4">
+                <div className="">
+                  <UpvoteButton vote={reply.score} id={reply.id} reply={true} />
+                </div>
+                <div className="sm:hidden">
+                  <CommentButtons
+                    username={reply.user.username}
+                    currentUser={currentUser!.username}
+                    postId={reply.id}
+                    reply={true}
                   />
+                </div>
+              </div>
+              <div className="flex flex-col order-1 w-full sm:order-2 sm:pr-4 sm:pb-2">
+                <div className="flex flex-row justify-between items-center">
                   <div>
-                    {!searchParams.showEdit && (
-                      <CommentButtons
-                        username={reply.user.username}
-                        currentUser={
-                          currentUser?.username ? currentUser.username : ""
-                        }
-                        postId={reply.id}
-                        reply={true}
-                      />
-                    )}
+                    <CommentHeader
+                      name={reply.user.username}
+                      avatar={reply.user.image.png}
+                      date={reply.createdAt}
+                    />
+                  </div>
+                  <div className="hidden sm:block">
+                    <CommentButtons
+                      username={reply.user.username}
+                      currentUser={currentUser!.username}
+                      postId={reply.id}
+                      reply={true}
+                    />
                   </div>
                 </div>
                 <div>
@@ -98,7 +125,7 @@ export default function Home({ searchParams }: { searchParams: Params }) {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="ml-8 mr-2">
               {searchParams.showReply &&
                 parseInt(searchParams.id) == reply.id && (
                   <ReplyCard
@@ -108,9 +135,6 @@ export default function Home({ searchParams }: { searchParams: Params }) {
                   />
                 )}
             </div>
-            {searchParams.modal && (
-              <DeleteModal postId={reply.id} reply={true} />
-            )}
           </div>
         );
       });

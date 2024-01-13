@@ -29,17 +29,19 @@ const UpvoteButton = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 py-1 text-center bg-neutral-veryLightGray px-[0.75rem] rounded-lg">
+    <div className="flex sm:flex-col sm:gap-2 gap-4 py-1 items-center justify-center bg-neutral-veryLightGray px-[0.75rem] rounded-lg">
       <button
         onClick={handleIncrement}
-        className=" text-primary-lightGrayishBlue hover:text-primary-moderateBlue py-2"
+        className="text-primary-lightGrayishBlue hover:text-primary-moderateBlue text-xs sm:mt-2"
       >
         <FaPlus />
       </button>
-      <div className="text-primary-moderateBlue leading-2">{localVote}</div>
+      <div className="text-primary-moderateBlue font-medium text-sm pt-1">
+        {localVote}
+      </div>
       <button
         onClick={handleDecrement}
-        className=" text-primary-lightGrayishBlue hover:text-primary-moderateBlue pb-2"
+        className=" text-primary-lightGrayishBlue hover:text-primary-moderateBlue text-xs sm:mb-2"
       >
         <FaMinus />
       </button>

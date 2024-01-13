@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
 export type comments = {
   id: number;
@@ -166,6 +167,7 @@ export const useDataStore = create<DataState>((set) => ({
         comments: updateComments,
       };
     }),
+  // TODO - fix logic error in here
   deleteComment: (id: number) =>
     set((state) => {
       const updatedReplies = state.comments.map((comment) => {
