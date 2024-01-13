@@ -44,7 +44,7 @@ export interface DataState {
   currentUser: user;
   comments: comments[];
   addComment: (comment: comments) => void;
-  updateComment: (updatedComment: comments, id: number) => void;
+  updateComment: (updatedContent: string, id: number) => void;
   incrementId: () => void;
   addReply: (reply: reply, toCommentId: number) => void;
   deleteComment: (id: number) => void;
@@ -127,16 +127,26 @@ export const useDataStore = create<DataState>((set) => ({
       state.incrementId();
       return { comments: [...state.comments, comment] };
     }),
-  updateComment: (updatedComment: comments, id: number) =>
+  updateComment: (updatedContent: string, id: number) =>
     set((state) => {
-      const newComments = state.comments.map((comment) => {
-        if (comment.id == id) {
-          return updatedComment;
+      const updatedComments = state.comments.map((comment) => {
+        // check replies for id.
+        if (comment.replies.length > 0) {
+          const updatedReplies = comment.replies.map((reply) => {
+            if (reply.id === id) {
+              return { ...reply, content: updatedContent };
+            } else {
+              return reply;
+            }
+          });
+          return { ...comment, replies: updatedReplies };
+        } else if (comment.id === id) {
+          return { ...comment, content: updatedContent };
         } else {
           return comment;
         }
       });
-      return { comments: newComments };
+      return { comments: updatedComments };
     }),
 
   incrementId: () => set((state) => ({ nextId: state.nextId + 1 })),
@@ -167,10 +177,10 @@ export const useDataStore = create<DataState>((set) => ({
         comments: updateComments,
       };
     }),
-  // TODO - fix logic error in here
   deleteComment: (id: number) =>
     set((state) => {
       const updatedReplies = state.comments.map((comment) => {
+        // check replies for id.
         if (comment.replies.length > 0) {
           const filteredReplies = comment.replies.filter((reply) => {
             return reply.id !== id;

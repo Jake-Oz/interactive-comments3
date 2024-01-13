@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
 import { useDataStore } from "../hooks/useDataStore";
-import { comments } from "../hooks/useDataStore";
 
 const EditComment = ({
   id,
@@ -18,7 +17,6 @@ const EditComment = ({
 }) => {
   const [text, setText] = useState(comment);
   const router = useRouter();
-  //const updateCommentWithUser = UpdateComment.bind(null, id, reply);
   const dataSet = useDataStore();
 
   const updateText = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,55 +31,15 @@ const EditComment = ({
   };
 
   const handleSubmit = (formData: FormData) => {
-    // updateCommentWithUser(formData);
     const newContent = formData.get("comment")?.toString()!;
-    const latestComments = dataSet.comments;
-    const commentToUpdate = latestComments.filter((comment) => {
-      if (comment.id == id) {
-        return true;
-      } else if (comment.replies.length > 0) {
-        // see if id matches reply id and if so, return true
-        const replyId = comment.replies.filter((reply) => {
-          return reply.id == id;
-        });
-        if (replyId.length > 0) {
-          return true;
-        }
-      } else {
-        return false;
-      }
-    });
-    var updatedComment: comments;
-    // check if the comment is from a root comment
-    if (commentToUpdate[0].id === id) {
-      updatedComment = { ...commentToUpdate[0], content: newContent };
-    } else {
-      // must be a reply so update reply and add to comment
-      const newReply = commentToUpdate[0].replies.filter(
-        (reply) => reply.id == id
-      );
-      const updatedReplies = commentToUpdate[0].replies.map((reply) => {
-        if (reply.id == id) {
-          return { ...newReply[0], content: newContent };
-        } else {
-          return reply;
-        }
-      });
-      updatedComment = {
-        ...commentToUpdate[0],
-        replies: updatedReplies,
-      };
-    }
-
-    dataSet.updateComment(updatedComment, commentToUpdate[0].id);
-
+    dataSet.updateComment(newContent, id);
     router.push("/");
   };
   return (
-    <div className="w-full rounded-xl mx-4 mb-2 bg-neutral-White">
+    <div className="rounded-xl mx-4 mb-2 bg-neutral-White">
       <form
         action={handleSubmit}
-        className="flex justify-between items-start gap-4"
+        className="flex flex-col justify-between items-end gap-4"
       >
         <textarea
           name="comment"

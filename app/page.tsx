@@ -61,9 +61,16 @@ export default function Home({ searchParams }: { searchParams: Params }) {
               />
             </div>
           </div>
-          <div className="">
+
+          {searchParams.showEdit && comment.id == parseInt(searchParams.id) ? (
+            <EditComment
+              id={comment.id}
+              comment={comment.content}
+              reply={false}
+            />
+          ) : (
             <CommentText comment={comment.content} />
-          </div>
+          )}
         </div>
       </div>
     );
@@ -106,34 +113,36 @@ export default function Home({ searchParams }: { searchParams: Params }) {
                     />
                   </div>
                 </div>
-                <div>
-                  {searchParams.showEdit ? (
-                    reply.user.username == currentUser?.username && (
-                      <EditComment
-                        id={reply.id}
-                        comment={reply.content}
-                        reply={true}
-                      />
-                    )
-                  ) : (
-                    <CommentText
-                      comment={reply.content}
-                      replyUserName={reply.replyingTo}
-                    />
-                  )}
-                </div>
+
+                {searchParams.showEdit &&
+                reply.id == parseInt(searchParams.id) ? (
+                  <EditComment
+                    id={reply.id}
+                    comment={reply.content}
+                    reply={true}
+                  />
+                ) : (
+                  <CommentText
+                    comment={reply.content}
+                    replyUserName={reply.replyingTo}
+                  />
+                )}
               </div>
             </div>
-            <div className="ml-8 mr-2">
-              {searchParams.showReply &&
-                parseInt(searchParams.id) == reply.id && (
+
+            {searchParams.showReply &&
+              parseInt(searchParams.id) == reply.id && (
+                <div className="ml-4 sm:ml-8 mt-4">
                   <ReplyCard
                     username={currentUser?.username ? currentUser.username : ""}
                     postId={reply.id}
                     isReply={true}
                   />
-                )}
-            </div>
+                </div>
+              )}
+            {searchParams.modal && parseInt(searchParams.id) == reply.id && (
+              <DeleteModal postId={reply.id} reply={true} />
+            )}
           </div>
         );
       });
@@ -163,7 +172,7 @@ export default function Home({ searchParams }: { searchParams: Params }) {
                 isReply={false}
               />
             )}
-          {searchParams.modal && (
+          {searchParams.modal && comment.id == parseInt(searchParams.id) && (
             <DeleteModal postId={comment.id} reply={true} />
           )}
         </div>
