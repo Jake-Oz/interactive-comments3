@@ -29,7 +29,7 @@ const UpvoteButton = ({
   };
 
   return (
-    <div className="flex sm:flex-col sm:gap-2 gap-4 py-1 items-center justify-center bg-neutral-veryLightGray px-[0.75rem] rounded-lg">
+    <div className="flex sm:flex-col sm:gap-2 gap-4 py-1 items-center justify-center bg-neutral-veryLightGray px-[0.75rem] rounded-lg w-24 sm:w-8">
       <button
         onClick={handleIncrement}
         className="text-primary-lightGrayishBlue hover:text-primary-moderateBlue text-xs sm:mt-2"
