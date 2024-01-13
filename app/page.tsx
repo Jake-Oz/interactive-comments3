@@ -70,9 +70,8 @@ export default function Home({ searchParams }: { searchParams: Params }) {
     if (comment.replies.length > 0) {
       const replies = comment.replies.map((reply) => {
         return (
-          <div>
+          <div key={reply.id}>
             <div
-              key={reply.id}
               className="
            flex flex-col-reverse sm:flex-row items-top ml-4 sm:ml-8 sm:pb-2 bg-neutral-White rounded-xl"
             >
